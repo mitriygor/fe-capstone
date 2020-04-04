@@ -35,16 +35,17 @@ export default class App extends Component<AppProps, AppState> {
 
   render() {
     return (
-      <div>
-        <Segment style={{ padding: '8em 0em' }} vertical>
+      <div id="udacityCapstone">
+          <Segment style={{ padding: '8em 0em' }} vertical>
           <Grid container stackable verticalAlign="middle">
             <Grid.Row>
               <Grid.Column width={16}>
-                <Router history={this.props.history}>
-                  {this.generateMenu()}
-
-                  {this.generateCurrentPage()}
-                </Router>
+                  {!!this.props.history && (
+                      <Router history={this.props.history}>
+                          {this.generateMenu()}
+                          {this.generateCurrentPage()}
+                      </Router>
+                  )}
               </Grid.Column>
             </Grid.Row>
           </Grid>
@@ -66,7 +67,7 @@ export default class App extends Component<AppProps, AppState> {
   }
 
   logInLogOutButton() {
-    if (this.props.auth.isAuthenticated()) {
+    if (!!this.props.auth && this.props.auth.isAuthenticated()) {
       return (
         <Menu.Item name="logout" onClick={this.handleLogout}>
           Log Out
@@ -82,7 +83,7 @@ export default class App extends Component<AppProps, AppState> {
   }
 
   generateCurrentPage() {
-    if (!this.props.auth.isAuthenticated()) {
+    if (!this.props.auth || !this.props.auth.isAuthenticated()) {
       return <LogIn auth={this.props.auth} />
     }
 
